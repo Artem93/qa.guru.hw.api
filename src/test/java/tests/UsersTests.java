@@ -1,6 +1,6 @@
 package tests;
 
-import com.github.javafaker.Faker;
+import models.UserModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,15 +12,14 @@ import static org.hamcrest.Matchers.*;
 import static utils.StringPatterns.fullTimePattern;
 
 public class UsersTests extends UsersBaseTest {
+
     @Test()
     @DisplayName(value = "Проверка успешного создания юзера c именем и работой")
     void checkSuccessfulCreateUserTest() {
-        String userBody = "{ \"name\": \"Artem\", \"job\": \"Guru\" }";
+        UserModel userModel = new UserModel("Artem", "Guru");
 
-        Faker.instance().name();
-        Faker.instance().job();
         given()
-                .body(userBody)
+                .body(userModel)
                 .contentType(JSON)
                 .log().body()
 
@@ -31,8 +30,8 @@ public class UsersTests extends UsersBaseTest {
                 .log().status()
                 .log().body()
                 .statusCode(201)
-                .body("name", is("Artem"))
-                .body("job", is("Guru"))
+                .body("name", is(userModel.getName()))
+                .body("job", is(userModel.getJob()))
                 .body("id", matchesRegex("\\d+"))
                 .body("createdAt", matchesRegex(fullTimePattern));
     }
