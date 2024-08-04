@@ -1,19 +1,8 @@
 package models;
 
-public class UserModel {
-    public UserModel(String name, String job) {
-        this.name = name;
-        this.job = job;
-    }
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    private final String name;
-    private final String job;
-
-    public String getName() {
-        return name;
-    }
-
-    public String getJob() {
-        return job;
-    }
+public record UserModel(
+        @JsonProperty("data") UserData data,
+        @JsonProperty("support") UserSupport userSupport) {
 }
