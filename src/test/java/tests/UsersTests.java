@@ -75,7 +75,7 @@ public class UsersTests extends UsersBaseTest {
 
     @Test
     @DisplayName("Проверка ответа о несуществующем юзере")
-    void checkUserNotFoundTest() {
+    void checkUserNotFoundWithBigIdTest() {
         given()
                 .when()
                 .get("/111")
@@ -89,7 +89,7 @@ public class UsersTests extends UsersBaseTest {
 
     @ValueSource(strings = {"#", "@", "-"})
     @ParameterizedTest(name = "Проверка ответа о юзере с некорректным id = ''{0}''")
-    void checkUserNotFoundTest(String path) {
+    void checkUserNotFoundWithIncorrectIdTest(String path) {
         given()
                 .when()
                 .get(path)
