@@ -4,11 +4,7 @@ import com.github.javafaker.Faker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
@@ -16,10 +12,10 @@ import static org.hamcrest.Matchers.*;
 import static utils.StringPatterns.fullTimePattern;
 
 public class UsersTests extends UsersBaseTest {
-    @MethodSource
-    @ParameterizedTest(name = "Проверка успешного создания юзера c именем ''{0}'' и работой ''{1}''")
-    void checkSuccessfulCreateUserTest(String name, String job) {
-        String userBody = String.format("{ \"name\": \"%s\", \"job\": \"%s\" }", name, job);
+    @Test()
+    @DisplayName(value = "Проверка успешного создания юзера c именем и работой")
+    void checkSuccessfulCreateUserTest() {
+        String userBody = "{ \"name\": \"Artem\", \"job\": \"Guru\" }";
 
         Faker.instance().name();
         Faker.instance().job();
@@ -35,17 +31,10 @@ public class UsersTests extends UsersBaseTest {
                 .log().status()
                 .log().body()
                 .statusCode(201)
-                .body("name", is(name))
-                .body("job", is(job))
+                .body("name", is("Artem"))
+                .body("job", is("Guru"))
                 .body("id", matchesRegex("\\d+"))
                 .body("createdAt", matchesRegex(fullTimePattern));
-    }
-
-    public static Stream<Arguments> checkSuccessfulCreateUserTest() {
-        return Stream.of(Arguments.of(
-                Faker.instance().name().name(),
-                Faker.instance().job().title()
-        ));
     }
 
     @Test
