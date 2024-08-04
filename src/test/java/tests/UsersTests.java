@@ -1,6 +1,5 @@
 package tests;
 
-import com.github.javafaker.Faker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,8 +16,6 @@ public class UsersTests extends UsersBaseTest {
     void checkSuccessfulCreateUserTest() {
         String userBody = "{ \"name\": \"Artem\", \"job\": \"Guru\" }";
 
-        Faker.instance().name();
-        Faker.instance().job();
         given()
                 .body(userBody)
                 .contentType(JSON)
